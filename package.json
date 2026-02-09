@@ -1,0 +1,20 @@
+{
+  "name": "whatsapp-automate-msg",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "RJ",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mysql2": "^3.16.3",
+    "node-cron": "^4.2.1",
+    "npm": "^11.8.0",
+    "twilio": "^5.12.0"
+  }
+}
