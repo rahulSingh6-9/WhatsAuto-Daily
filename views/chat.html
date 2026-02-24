@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WA Admin Panel</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", sans-serif;
+}
+:root{
+    --bg:#f0f2f5;
+    --sidebar:#ffffff;
+    --card:#ffffff;
+    --text:#111b21;
+    --subtext:#667781;
+    --primary:#25D366;
+    --hover:#e9edef;
+}
+
+[data-theme="dark"]{
+    --bg:#0b141a;
+    --sidebar:#111b21;
+    --card:#202c33;
+    --text:#e9edef;
+    --subtext:#8696a0;
+    --primary:#25D366;
+    --hover:#2a3942;
+}
+body {
+    background: var(--bg);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar{
+    width:250px;
+    background:var(--sidebar);
+    padding:30px 20px;
+    border-right:1px solid var(--hover);
+    transition:0.3s;
+}
+
+.logo{
+    font-size:20px;
+    font-weight:600;
+    color:var(--primary);
+    margin-bottom:40px;
+}
+
+.sidebar ul{
+    list-style:none;
+}
+
+.sidebar ul li{
+    margin-bottom:15px;
+}
+
+.sidebar ul li a{
+    text-decoration:none;
+    color: var(--text);
+    padding:12px 15px;
+    display:block;
+    border-radius:8px;
+    transition:0.2s;
+}
+
+.sidebar ul li a:hover,
+.sidebar ul li a.active{
+    background:var(--primary);
+    color:#fff;
+}
+
+
+/* ================= HEADER ================= */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.menu-toggle{
+    display:none;
+    background:var(--card);
+    border:1px solid var(--hover);
+    font-size:18px;
+    padding:6px 12px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+
+/* ===== PROFILE IMAGE ===== */
+
+.profile-img{
+    width:36px;
+    height:36px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid var(--primary);
+}
+
+.sidebar-profile{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:30px;
+}
+
+.sidebar-profile img{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    object-fit:cover;
+    border:2px solid var(--primary);
+}
+
+.sidebar-profile .name{
+    font-size:14px;
+    font-weight:500;
+}
+
+/* ================= MAIN LAYOUT ================= */
+
+.main {
+    flex: 1;
+    display: flex;
+    height: 100vh;
+}
+
+/* ================= CONTACT PANEL ================= */
+
+.contacts {
+    width: 320px;
+    background: white;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+}
+
+.contacts-header {
+    padding: 15px;
+    font-weight: bold;
+    border-bottom: 1px solid #eee;
+    background: #f0f2f5;
+}
+
+.contact {
+    padding: 15px;
+    border-bottom: 1px solid #f2f2f2;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.contact:hover {
+    background: #f5f5f5;
+}
+
+.contact.active {
+    background: #e9edef;
+}
+
+.contact-name {
+    font-weight: 600;
+}
+
+.contact-last {
+    font-size: 13px;
+    color: gray;
+}
+
+/* ================= CHAT AREA ================= */
+
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #efeae2;
+}
+
+.chat-header {
+    padding: 15px;
+    background: #f0f2f5;
+    border-bottom: 1px solid #ddd;
+    font-weight: 600;
+}
+
+.messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    max-width: 60%;
+    padding: 10px 14px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    position: relative;
+    font-size: 14px;
+}
+
+.admin {
+    align-self: flex-end;
+    background: #d9fdd3;
+}
+
+.client {
+    align-self: flex-start;
+    background: white;
+}
+
+.timestamp {
+    font-size: 10px;
+    text-align: right;
+    margin-top: 4px;
+    color: gray;
+}
+
+/* ================= INPUT AREA ================= */
+
+.input-area {
+    display: flex;
+    padding: 10px;
+    background: #f0f2f5;
+    border-top: 1px solid #ddd;
+}
+
+.input-area input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    outline: none;
+}
+
+.input-area button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    background: #25d366;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+/* ================= MOBILE ================= */
+
+.menu-btn {
+    display: none;
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #111;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    top: 0;
+    left: 0;
+    z-index: 900;
+}
+
+@media(max-width: 900px) {
+    .sidebar {
+        position: fixed;
+        left: -250px;
+        height: 100%;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .overlay.active {
+        display: block;
+    }
+
+    .menu-btn {
+        display: block;
+    }
+
+    .contacts {
+        display: none;
+    }
+}
+
+</style>
+</head>
+<body>
+
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<div class="sidebar">
+    <div class="sidebar-profile">
+    <img src="https://i.pravatar.cc/100?img=12" alt="Rahul">
+    <div>
+        <div class="logo" style="margin-bottom:2px;">WA Admin</div>
+        <div class="name">Rahul</div>
+    </div>
+</div>
+    <ul>
+        <li><a href="/admin">Dashboard</a></li>
+        <li><a href="/showArgent">Show Argent</a></li>
+        <li><a href="/chats" class="active">Chats</a></li>
+        <li><a href="#">Scheduled</a></li>
+        <li><a href="#">Settings</a></li>
+    </ul>
+</div>
+
+<div class="main">
+
+    <div class="contacts">
+        <div class="contacts-header">Chats</div>
+        <div class="contact active" onclick="selectContact('Aman')">
+            <div class="contact-name">Aman</div>
+            <div class="contact-last">Hello sir...</div>
+        </div>
+        <div class="contact" onclick="selectContact('Rahul')">
+            <div class="contact-name">Rahul</div>
+            <div class="contact-last">Order done?</div>
+        </div>
+    </div>
+
+    <div class="chat-area">
+        <div class="menu-btn" onclick="toggleSidebar()">☰</div>
+        <div class="chat-header" id="chatHeader">Aman</div>
+
+        <div class="messages" id="messages">
+            <div class="message client">
+                Hello sir
+                <div class="timestamp">10:30 AM</div>
+            </div>
+
+            <div class="message admin">
+                Hi Aman
+                <div class="timestamp">10:31 AM ✓✓</div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input type="text" id="messageInput" placeholder="Type a message">
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+function toggleSidebar() {
+    document.querySelector(".sidebar").classList.toggle("active");
+    document.querySelector(".overlay").classList.toggle("active");
+}
+
+function selectContact(name) {
+    document.getElementById("chatHeader").innerText = name;
+
+    document.querySelectorAll(".contact").forEach(c => c.classList.remove("active"));
+    event.currentTarget.classList.add("active");
+}
+
+function sendMessage() {
+    let input = document.getElementById("messageInput");
+    let text = input.value.trim();
+    if (!text) return;
+
+    let msgBox = document.createElement("div");
+    msgBox.className = "message admin";
+    msgBox.innerHTML = text + '<div class="timestamp">Now ✓</div>';
+
+    document.getElementById("messages").appendChild(msgBox);
+    input.value = "";
+
+    document.getElementById("messages").scrollTop =
+        document.getElementById("messages").scrollHeight;
+}
+
+</script>
+
+</body>
+</html>

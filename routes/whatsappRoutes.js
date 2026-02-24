@@ -1,7 +1,21 @@
 import express from 'express'
 // import { sendDailySummary, getClientSummary } from '../controllers/whatsappController.js'
-
+import { loginPage, loginAdmin, adminPage, getClients, adminLogout, showArgentPage, getClients30, getClients60, getClients90, chatPage, totalClients } from '../controllers/whatsAppController.js'
 const router = express.Router()
+
+router.get('/', loginPage)
+router.get('/admin', adminPage)
+router.get('/showArgent', showArgentPage)
+router.get('/chats', chatPage)
+router.get('/api/totalclients', totalClients)
+
+router.get("/api/getclients", getClients);
+router.get('/api/getclients30', getClients30)
+router.get('/api/getclients60', getClients60)
+router.get('/api/getclients90', getClients90)
+
+router.post('/', loginAdmin)
+router.post('/api/adminLogout', adminLogout)
 
 // Health check
 router.get('/health', (req, res) => {
@@ -11,24 +25,5 @@ router.get('/health', (req, res) => {
   })
 })
 
-// Manual WhatsApp trigger (testing)
-// router.get('/send-summary', async (req, res) => {
-//   try {
-//     await sendDailySummary()
-//     res.json({ message: 'WhatsApp summary sent successfully ✅' })
-//   } catch (err) {
-//     res.status(500).json({ error: err.message })
-//   }
-// })
-
-// Check today’s 30/60/90 day clients (without WhatsApp)
-// router.get('/clients/summary', async (req, res) => {
-//   try {
-//     const summary = await getClientSummary()
-//     res.json(summary)
-//   } catch (err) {
-//     res.status(500).json({ error: err.message })
-//   }
-// })
 
 export default router

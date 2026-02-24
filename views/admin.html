@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WA Admin Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ================= THEME VARIABLES ================= */
+
+        :root {
+            --bg: #f0f2f5;
+            --sidebar: #ffffff;
+            --card: #ffffff;
+            --text: #111b21;
+            --subtext: #667781;
+            --primary: #25D366;
+            --hover: #e9edef;
+        }
+
+        [data-theme="dark"] {
+            --bg: #0b141a;
+            --sidebar: #111b21;
+            --card: #202c33;
+            --text: #e9edef;
+            --subtext: #8696a0;
+            --primary: #25D366;
+            --hover: #2a3942;
+        }
+
+        /* ================= GLOBAL ================= */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background: var(--bg);
+            color: var(--text);
+            transition: 0.3s;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 250px;
+            background: var(--sidebar);
+            padding: 30px 20px;
+            border-right: 1px solid var(--hover);
+            transition: 0.3s;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 40px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: var(--text);
+            padding: 12px 15px;
+            display: block;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+
+        .sidebar ul li a:hover,
+        .sidebar ul li a.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            flex: 1;
+            padding: 30px;
+        }
+
+        /* ================= HEADER ================= */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: var(--card);
+            border: 1px solid var(--hover);
+            font-size: 18px;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .search {
+            background: var(--card);
+            border: 1px solid var(--hover);
+            padding: 10px 15px;
+            border-radius: 8px;
+            width: 260px;
+            color: var(--text);
+        }
+
+        /* ===== PROFILE IMAGE ===== */
+
+        .profile-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-profile img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .sidebar-profile .name {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* ================= CARDS ================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--hover);
+        }
+
+        .card h3 {
+            font-size: 14px;
+            color: var(--subtext);
+            margin-bottom: 8px;
+        }
+
+        .card p {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .btn {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .green {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .blue {
+            background: #128C7E;
+            color: #fff;
+        }
+
+        .orange {
+            background: #ff9800;
+            color: #fff;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-box {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--hover);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            color: var(--primary);
+            border-bottom: 1px solid var(--hover);
+        }
+
+        tr {
+            border-bottom: 1px solid var(--hover);
+        }
+
+        tr:hover {
+            background: var(--hover);
+        }
+
+        .stage {
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        .active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .stop {
+            background: #ff4d4d;
+            color: #fff;
+        }
+
+        /* ===== PROFILE CONTAINER ===== */
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--card);
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--hover);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+            transition: all .25s ease;
+        }
+
+        /* subtle hover lift */
+        .profile:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.10);
+        }
+
+        /* ===== THEME BUTTON ===== */
+
+        .theme-toggle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--hover);
+            background: var(--bg);
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .25s ease;
+        }
+
+        /* hover effect */
+        .theme-toggle:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            transform: rotate(15deg) scale(1.05);
+        }
+
+        /* ===== LOGOUT BUTTON ===== */
+
+        .logout {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 999px;
+            color: #fff;
+            font-weight: 500;
+            cursor: pointer;
+            letter-spacing: .3px;
+            transition: all .25s ease;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+        }
+
+        /* hover premium glow */
+        .logout:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(37, 211, 102, 0.35);
+            filter: brightness(1.05);
+        }
+
+        /* click feel */
+        .logout:active {
+            transform: scale(.96);
+        }
+
+        /* ===== MOBILE TWEAK ===== */
+
+        @media(max-width:768px) {
+            .profile {
+                gap: 8px;
+                padding: 4px 8px;
+            }
+
+            .logout {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+
+            .theme-toggle {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+        }
+
+        /* ================= MOBILE ================= */
+ .mobile{ display:none;}
+        @media(max-width:768px) {
+            .pc{display: none;}
+            .mobile{
+                 display: flex;
+                 justify-content: space-evenly;
+                 margin-bottom: 40px;
+                }
+
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                height: 100%;
+                z-index: 1000;
+            }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .search {
+                width: 100%;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .btn {
+                width: auto;
+                /* NOT full width */
+                font-size: 13px;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="overlay" onclick="toggleSidebar()"></div>
+
+    <div class="sidebar">
+        <div class="sidebar-profile">
+            <img src="https://i.pravatar.cc/100?img=12" alt="Rahul">
+            <div>
+                <div class="logo" style="margin-bottom:2px;">WA Admin</div>
+                <div class="name">Rahul</div>
+            </div>
+        </div>
+         <div class="profile mobile" >
+            <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+            <form method="POST" action="/api/adminLogout">
+                <button type="submit" class="logout">Logout</button>
+            </form>
+        </div>
+        <ul>
+            <li><a href="/admin" class="active">Dashboard</a></li>
+            <li><a href="/showArgent">Show Argent</a></li>
+            <li><a href="/chats">Chats</a></li>
+            <li><a href="#">Scheduled</a></li>
+            <li><a href="#">Settings</a></li>
+        </ul>
+    </div>
+
+    <div class="main">
+
+        <div class="topbar">
+            <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+
+            <input type="text" id="searchInput" class="search" placeholder="Search client...">
+
+            <div class="profile pc">
+                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+                <form method="POST" action="/api/adminLogout">
+                    <button type="submit" class="logout">Logout</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Total Clients</h3>
+                <p id="totalclients"></p>
+            </div>
+            <div class="card">
+                <h3>Active Clients</h3>
+                <p>412</p>
+            </div>
+            <div class="card">
+                <h3>Expired Clients</h3>
+                <p>277</p>
+            </div>
+            <div class="card">
+                <h3>Messages Sent Today</h3>
+                <p>1,245</p>
+            </div>
+        </div>
+
+        <div class="table-box">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Start Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="clientTable"></tbody>
+            </table>
+            <div id="noData" class="no-data">No contacts found</div>
+        </div>
+
+    </div>
+
+    <script>
+        const table = document.getElementById('clientTable');
+        const noData = document.getElementById("noData");
+        const search = document.getElementById("searchInput");
+        const totalClients = document.getElementById("totalclients")
+
+
+        function renderTable(data) {
+
+            table.innerHTML = '';
+
+            if (data.length === 0) {
+                noData.style.display = 'block';
+                return;
+            } else {
+                noData.style.display = 'none';
+            }
+
+            data.forEach(c => {
+                table.innerHTML += `
+            <tr>
+                <td>${c.id}</td>
+                <td>${c.name}</td>
+                <td>
+                    <span class="stage ${c.status === 'Active' ? 'active' : 'stop'}">
+                        ${c.status}
+                    </span>
+                </td>
+                <td>${c.date}</td>
+                <td>
+                    <button class="edit">Edit</button>
+                    <button class="delete">Delete</button>
+                </td>
+            </tr>
+        `;
+            });
+        }
+
+        /* =========================
+           LOAD CONTACTS
+        ========================= */
+        async function loadClients() {
+            try {
+                const res = await fetch('/api/getclients');
+                const clients = await res.json();
+                renderTable(clients);
+
+            } catch (err) {
+                console.log('Error loading clients:', err);
+            }
+        }
+
+        /* =========================
+           SEARCH (BACKEND)
+        ========================= */
+        search.addEventListener('input', async e => {
+            const value = e.target.value.trim()
+
+            try {
+                const res = await fetch(`/api/getclients?search=${value}`)
+                const searchData = await res.json()
+                renderTable(searchData)
+            } catch (err) { console.error('Search error: ', err) }
+        })
+
+        /* =========================
+           TOTAL CLIENT (BACKEND)
+        ========================= */
+        async function loadTotalClients() {
+            try {
+                const res = await fetch('/api/totalclients')
+                const data = await res.json()
+
+                totalClients.innerText = `${data.total_clients}`
+            }
+            catch (err) { console.error(err) }
+        }
+
+        loadTotalClients()
+
+        function toggleSidebar() {
+            document.querySelector(".sidebar").classList.toggle("show");
+            document.querySelector(".overlay").classList.toggle("show");
+        }
+
+
+        /* ===== DARK MODE ===== */
+        function toggleTheme() {
+            const body = document.body
+            const current = body.getAttribute("data-theme")
+
+            if (current === "dark") {
+                body.removeAttribute("data-theme")
+                localStorage.setItem("theme", "light")
+            } else {
+                body.setAttribute("data-theme", "dark")
+                localStorage.setItem("theme", "dark")
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const saved = localStorage.getItem("theme")
+            if (saved === "dark") {
+                document.body.setAttribute("data-theme", "dark")
+            }
+        })
+
+        loadClients();
+
+    </script>
+
+</body>
+
+</html>

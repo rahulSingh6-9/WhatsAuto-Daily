@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login | WhatsApp Automation</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+/* ===== THEME VARIABLES ===== */
+
+:root{
+    --bg:#f0f2f5;
+    --card:#ffffff;
+    --text:#111b21;
+    --subtext:#667781;
+    --primary:#25D366;
+    --hover:#e9edef;
+}
+
+[data-theme="dark"]{
+    --bg:#0b141a;
+    --card:#202c33;
+    --text:#e9edef;
+    --subtext:#8696a0;
+    --primary:#25D366;
+    --hover:#2a3942;
+}
+
+/* ===== GLOBAL ===== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:var(--bg);
+    transition:0.3s;
+}
+
+/* ===== LOGIN CARD ===== */
+
+.container{
+    width:380px;
+    background:var(--card);
+    border-radius:16px;
+    padding:40px 30px;
+    border:1px solid var(--hover);
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+
+.container:hover{
+    transform:translateY(-3px);
+}
+
+/* ===== TITLE ===== */
+
+.title{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.title h2{
+    font-weight:600;
+    color:var(--primary);
+}
+
+/* ===== ADMIN TAG ===== */
+
+.admin-tag{
+    text-align:center;
+    font-size:13px;
+    margin-bottom:25px;
+    color:var(--subtext);
+}
+
+/* ===== INPUTS ===== */
+
+.input-group{
+    margin-bottom:20px;
+}
+
+.input-group input{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid var(--hover);
+    outline:none;
+    font-size:14px;
+    background:var(--bg);
+    color:var(--text);
+    transition:0.2s;
+}
+
+.input-group input:focus{
+    border-color:var(--primary);
+}
+
+/* ===== BUTTONS ===== */
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    font-size:14px;
+    cursor:pointer;
+    font-weight:500;
+    transition:0.2s;
+}
+
+.login-btn{
+    background:var(--primary);
+    color:white;
+    margin-top:10px;
+}
+
+.login-btn:hover{
+    background:#128C7E;
+}
+
+/* ===== PORTFOLIO BUTTON ===== */
+
+.portfolio-btn{
+    background:transparent;
+    border:1px solid var(--primary);
+    color:var(--primary);
+    margin-top:15px;
+}
+
+.portfolio-btn:hover{
+    background:var(--primary);
+    color:white;
+}
+
+/* ===== FOOTER ===== */
+
+.footer{
+    text-align:center;
+    margin-top:25px;
+    font-size:12px;
+    color:var(--subtext);
+}
+
+/* ===== RESPONSIVE ===== */
+
+@media(max-width:420px){
+    .container{
+        width:90%;
+        padding:30px 20px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="title">
+        <h2>WhatsApp Automation</h2>
+    </div>
+
+    <div class="admin-tag">
+        🔐 Admin Access Only
+    </div>
+
+    <form method="POST" action="/" id="adminLoginForm">
+
+        <div class="input-group">
+            <input type="email" name="admin_id" id="admin_id" placeholder="Admin Email" required>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" id="password" placeholder="Admin Password" required>
+        </div>
+
+        <button type="submit" class="login-btn">Login to Dashboard</button>
+
+    </form>
+
+    <!-- Portfolio Button -->
+    <button class="portfolio-btn" onclick="window.open('https://rahul-portfolio-site-569m.onrender.com/','_blank')">
+        View Developer Portfolio
+    </button>
+
+    <div class="footer">
+        © 2026 WhatsApp Automation System
+    </div>
+
+</div>
+
+<script>
+
+/* ===== APPLY DARK MODE IF SET FROM ADMIN ===== */
+window.addEventListener("DOMContentLoaded",()=>{
+    const saved = localStorage.getItem("theme")
+    if(saved==="dark"){
+        document.body.setAttribute("data-theme","dark")
+    }
+})
+
+</script>
+
+</body>
+</html>
